@@ -22,7 +22,7 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
   wget -qO- https://raw.githubusercontent.com/eza-community/eza/main/deb.asc | sudo gpg --dearmor -o /etc/apt/keyrings/gierens.gpg || {
     echo "❌ Gagal mengunduh GPG key, menggunakan paket alternatif..."
     sudo rm -f /etc/apt/sources.list.d/gierens.list
-    wget -O /tmp/eza.deb https://gitea.thismydomains.com/admin/mFachmi-HomeLabs/raw/branch/main/screenshot/eza_0.20.9_amd64.deb || {
+    wget -O /tmp/eza.deb https://github.com/New8ie/ZshStyle/raw/refs/heads/main/source/eza_0.20.9_amd64.deb || {
       echo "❌ Gagal mengunduh paket eza"
       exit 1
     }

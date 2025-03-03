@@ -1,4 +1,4 @@
- ========================= PATH dan Variabel Lingkungan =========================
+# ========================= PATH dan Variabel Lingkungan =========================
 export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:/usr/local/share/myenv/bin:$PATH
 export PATH="$HOME/Library/Python/3.13/bin:$PATH"
 export PATH="$HOME/.local/share/nvim/lazy-rocks/bin:$PATH"
@@ -18,7 +18,7 @@ source $ZSH/oh-my-zsh.sh
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # ========================= Konfigurasi MacOS =========================
-source ~/.iterm2_shell_integration.zsh
+#source ~/.iterm2_shell_integration.zsh
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 export PATH="/opt/homebrew/opt/libtool/libexec/gnubin:$PATH"
@@ -28,43 +28,43 @@ export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/b
 export PATH="/opt/homebrew/opt/node@20/bin:$PATH"
 export ARCHFLAGS="-arch $(uname -m)"
 
-alias opvn="OpenVPN Connect" ## membuka aplikasi OpenVPN Connect
+#alias opvn="OpenVPN Connect" ## membuka aplikasi OpenVPN Connect
 
 # ========================= Alias untuk MacOS =========================
-alias showroute="netstat -nr -f inet" ## untuk melihat routing table
-alias rsdock="defaults write com.apple.dock ResetLaunchPad -bool true && killall Dock" ## reset Launchpad di Mac
-alias dnsflush="sudo killall -HUP mDNSResponder" ## flush DNS cache
-alias sshcpid='ssh-copy-id -i ~/.ssh/MyID-MacMini.pub -p 22' ## menyalin SSH public key
-alias cpwd='pwd | tr -d "\n" | pbcopy' ## menyalin path direktori saat ini
-alias caff="caffeinate -ism" ## mencegah Mac masuk ke mode tidur
-alias cl="fc -e -|pbcopy" ## menyalin output perintah terakhir
-alias cleanDS="find . -type f -name '*.DS_Store' -ls -delete" ## menghapus file .DS_Store
-alias showHidden='defaults write com.apple.finder AppleShowAllFiles TRUE' ## menampilkan file tersembunyi
-alias hideHidden='defaults write com.apple.finder AppleShowAllFiles FALSE' ## menyembunyikan file tersembunyi
-alias capc="screencapture -c" ## menangkap layar ke clipboard
-alias capic="screencapture -i -c" ## menangkap layar secara interaktif ke clipboard
-alias capiwc="screencapture -i -w -c" ## menangkap layar interaktif dengan window
+#alias showroute="netstat -nr -f inet" ## untuk melihat routing table
+#alias rsdock="defaults write com.apple.dock ResetLaunchPad -bool true && killall Dock" ## reset Launchpad di Mac
+#alias dnsflush="sudo killall -HUP mDNSResponder" ## flush DNS cache
+#alias sshcpid='ssh-copy-id -i ~/.ssh/MyID-MacMini.pub -p 22' ## menyalin SSH public key
+#alias cpwd='pwd | tr -d "\n" | pbcopy' ## menyalin path direktori saat ini
+#alias caff="caffeinate -ism" ## mencegah Mac masuk ke mode tidur
+#alias cl="fc -e -|pbcopy" ## menyalin output perintah terakhir
+#alias cleanDS="find . -type f -name '*.DS_Store' -ls -delete" ## menghapus file .DS_Store
+#alias showHidden='defaults write com.apple.finder AppleShowAllFiles TRUE' ## menampilkan file tersembunyi
+#alias hideHidden='defaults write com.apple.finder AppleShowAllFiles FALSE' ## menyembunyikan file tersembunyi
+#alias capc="screencapture -c" ## menangkap layar ke clipboard
+#alias capic="screencapture -i -c" ## menangkap layar secara interaktif ke clipboard
+#alias capiwc="screencapture -i -w -c" ## menangkap layar interaktif dengan window
 alias myip='curl ifconfig.me' ## menampilkan IP publik
-alias mylocalip="ifconfig | grep 'inet ' | grep -v 127.0.0.1 | awk '{print $2}'" ## menampilkan IP lokal
-alias volup="osascript -e 'set volume output volume ((output volume of (get volume settings)) + 10)'" ## meningkatkan volume sebanyak 10%
-alias voldown="osascript -e 'set volume output volume ((output volume of (get volume settings)) - 10)'" ## menurunkan volume sebanyak 10%
-alias mute="osascript -e 'set volume output muted true'" ## menonaktifkan suara
-alias unmute="osascript -e 'set volume output muted false'" ## mengaktifkan suara kembali
-alias restartfinder="killall Finder" ## me-restart Finder
-alias restartdock="killall Dock" ## me-restart Dock
-alias flushcache="sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder" ## membersihkan cache DNS dan memperbarui konfigurasi jaringan
-alias listservices="launchctl list" ## menampilkan daftar layanan yang berjalan di macOS
-alias backupdock="defaults export com.apple.dock ~/Desktop/dock-backup.plist" ## menyimpan pengaturan Dock sebelum restart
-alias restoredock="defaults import com.apple.dock ~/Desktop/dock-backup.plist; killall Dock" ## mengembalikan pengaturan Dock setelah restart
-alias runningapps="ps aux | grep -v grep | grep -i" ## melihat proses aplikasi yang berjalan
-alias killapp="pkill -f" ## menutup aplikasi secara paksa
-alias sysinfo="top -o cpu" ## menampilkan proses dengan penggunaan CPU tertinggi
-alias wifi-status="networksetup -listallhardwareports | awk '/Wi-Fi|AirPort/{getline; print \$NF}' | xargs -I{} networksetup -getairportpower {}" ## melihat status Wi-Fi dengan mendeteksi antarmuka yang benar
-alias wifi-on="networksetup -listallhardwareports | awk '/Wi-Fi|AirPort/{getline; print \$NF}' | xargs -I{} networksetup -setairportpower {} on" ## mengaktifkan Wi-Fi secara otomatis di antarmuka yang benar
-alias wifi-off="networksetup -listallhardwareports | awk '/Wi-Fi|AirPort/{getline; print \$NF}' | xargs -I{} networksetup -setairportpower {} off" ## menonaktifkan Wi-Fi secara otomatis di antarmuka yang benar
+#alias mylocalip="ifconfig | grep 'inet ' | grep -v 127.0.0.1 | awk '{print $2}'" ## menampilkan IP lokal
+#alias volup="osascript -e 'set volume output volume ((output volume of (get volume settings)) + 10)'" ## meningkatkan volume sebanyak 10%
+#alias voldown="osascript -e 'set volume output volume ((output volume of (get volume settings)) - 10)'" ## menurunkan volume sebanyak 10%
+#alias mute="osascript -e 'set volume output muted true'" ## menonaktifkan suara
+#alias unmute="osascript -e 'set volume output muted false'" ## mengaktifkan suara kembali
+#alias restartfinder="killall Finder" ## me-restart Finder
+#alias restartdock="killall Dock" ## me-restart Dock
+#alias flushcache="sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder" ## membersihkan cache DNS dan memperbarui konfigurasi jaringan
+#alias listservices="launchctl list" ## menampilkan daftar layanan yang berjalan di macOS
+#alias backupdock="defaults export com.apple.dock ~/Desktop/dock-backup.plist" ## menyimpan pengaturan Dock sebelum restart
+#alias restoredock="defaults import com.apple.dock ~/Desktop/dock-backup.plist; killall Dock" ## mengembalikan pengaturan Dock setelah restart
+#alias runningapps="ps aux | grep -v grep | grep -i" ## melihat proses aplikasi yang berjalan
+#alias killapp="pkill -f" ## menutup aplikasi secara paksa
+#alias sysinfo="top -o cpu" ## menampilkan proses dengan penggunaan CPU tertinggi
+#alias wifi-status="networksetup -listallhardwareports | awk '/Wi-Fi|AirPort/{getline; print \$NF}' | xargs -I{} networksetup -getairportpower {}" ## melihat status Wi-Fi dengan mendeteksi antarmuka yang benar
+#alias wifi-on="networksetup -listallhardwareports | awk '/Wi-Fi|AirPort/{getline; print \$NF}' | xargs -I{} networksetup -setairportpower {} on" ## mengaktifkan Wi-Fi secara otomatis di antarmuka yang benar
+#alias wifi-off="networksetup -listallhardwareports | awk '/Wi-Fi|AirPort/{getline; print \$NF}' | xargs -I{} networksetup -setairportpower {} off" ## menonaktifkan Wi-Fi secara otomatis di antarmuka yang benar
 alias openhere="open ." ## membuka folder saat ini di Finder
 alias folder-size="du -sh *" ## menampilkan ukuran folder secara ringkas
-alias cleanup="rm -rf ~/Library/Caches/* && sudo purge" ## membersihkan file sementara dan cache
+#alias cleanup="rm -rf ~/Library/Caches/* && sudo purge" ## membersihkan file sementara dan cache
 
 # ========================= Konfigurasi eza (Pengganti ls) =========================
 if command -v eza &> /dev/null; then
