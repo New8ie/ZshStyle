@@ -34,7 +34,7 @@ source $ZSH/oh-my-zsh.sh
 if [[ "$(uname)" == "Darwin" ]]; then
   alias showroute="netstat -nr -f inet" ## untuk melihat routing table
   alias rsdock="defaults write com.apple.dock ResetLaunchPad -bool true && killall Dock" ## reset Launchpad di Mac
-  alias dnsflush="sudo killall -HUP mDNSResponder" ## flush DNS cache
+  alias flushdns="sudo killall -HUP mDNSResponder" ## flush DNS cache
   alias sshcpid="/usr/local/bin/sshcpid.sh" ## menyalin SSH public key dengan script bash
   alias cpwd='pwd | tr -d "\n" | pbcopy' ## menyalin path direktori saat ini
   alias caff="caffeinate -ism" ## mencegah Mac masuk ke mode tidur
@@ -66,20 +66,47 @@ if [[ "$(uname)" == "Darwin" ]]; then
   alias listport="sudo lsof -i -P -n | grep LISTEN" ## melihat port yang sedang listening
   alias netport="netstat -an | grep LISTEN"
 fi
-# ========================= Alias untuk Ubuntu/Debian =========================
+# ========================= Alias untuk Linux (Ubuntu/Debian & lainnya) =========================
 if [[ "$(uname -s)" == "Linux" ]]; then
-  alias update="sudo apt update && sudo apt upgrade -y" ## update sistem
-  alias inst="sudo apt install" ## mempermudah instalasi paket
-  alias remove="sudo apt remove" ## menghapus paket
-  alias search="apt search" ## mencari paket
-  alias listport="netstat -tulnp" ## melihat port yang terbuka
-  alias cleanup="sudo apt autoremove -y && sudo apt autoclean -y" ## membersihkan sistem
+  if [ -f /etc/debian_version ]; then
+    alias update="sudo apt update && sudo apt upgrade -y" ## update sistem
+    alias inst="sudo apt install" ## mempermudah instalasi paket
+    alias remove="sudo apt remove" ## menghapus paket
+    alias search="apt search" ## mencari paket
+    alias cleanup="sudo apt autoremove -y && sudo apt autoclean -y" ## membersihkan sistem
+    alias flushdns="sudo systemd-resolve --flush-caches" ## membersihkan cache DNS  "NOTE install dulu systemd-resolved "
+  elif [ -f /etc/arch-release ]; then
+    alias update="sudo pacman -Syu" ## update sistem Arch Linux
+    alias inst="sudo pacman -S" ## instalasi paket di Arch
+    alias remove="sudo pacman -Rns" ## menghapus paket di Arch
+    alias cleanup="sudo pacman -Sc" ## membersihkan cache pacman
+    alias flushdns="sudo systemctl restart systemd-resolved" ## membersihkan cache DNS di Arch
+  elif [ -f /etc/redhat-release ]; then
+    alias update="sudo dnf update -y" ## update sistem RHEL/CentOS
+    alias inst="sudo dnf install" ## instalasi paket di RHEL/CentOS
+    alias remove="sudo dnf remove" ## menghapus paket di RHEL/CentOS
+    alias cleanup="sudo dnf autoremove -y && sudo dnf clean all" ## membersihkan sistem
+    alias flushdns="sudo systemctl restart NetworkManager" ## membersihkan cache DNS di RHEL/CentOS
+  fi
   alias myip="curl ifconfig.me" ## menampilkan IP publik
   alias showroute="ip route show" ## melihat tabel routing
-  alias services="systemctl list-units --type=service --state=running" ## menampilkan layanan yang berjalan
-  alias restartnetwork="sudo systemctl restart networking" ## me-restart jaringan
-  alias dnsflush="sudo systemd-resolve --flush-caches" ## membersihkan cache DNS
+  alias listport="netstat -tulnp" ## melihat port yang terbuka
 fi
+
+# ========================= Bantuan untuk Alias =========================
+function alias-help() {
+  echo -e "\e[1;34mDaftar Alias yang Tersedia:\e[0m"
+  if [[ "$(uname)" == "Darwin" ]]; then
+    alias | grep -E 'dnsflush|showroute|restartfinder|restartdock|rsdock' | sed 's/=.*##/ -->/' | while read -r line; do
+      printf "\e[1;32m%s\e[0m\n" "$line"
+    done
+  elif [[ "$(uname -s)" == "Linux" ]]; then
+    alias | grep -E 'flushdns|update|showroute|listport' | sed 's/=.*##/ -->/' | while read -r line; do
+      printf "\e[1;32m%s\e[0m\n" "$line"
+    done
+  fi
+}
+alias alias-help="alias-help"
 
 # ========================= Alias Umum =========================
 alias reload="source ~/.zshrc" ## memuat ulang konfigurasi zsh
@@ -103,6 +130,29 @@ else
   alias ls="ls" ## kembali ke default ls jika eza tidak ditemukan
 fi
 
+
+# ========================= Integrasi FZF =========================
+if command -v fzf &> /dev/null; then
+  export FZF_DEFAULT_COMMAND='fd --type f'
+  export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+  export FZF_ALT_C_COMMAND='fd --type d'
+  export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
+  alias fzf-history="history | fzf"
+fi
+
+# ========================= Integrasi Tmux =========================
+if command -v tmux &> /dev/null; then
+  alias t="tmux"
+  alias ta="tmux attach -t"
+  alias tn="tmux new -s"
+  alias tk="tmux kill-session -t"
+fi
+
+# ========================= Integrasi Zoxide =========================
+if command -v zoxide &> /dev/null; then
+  eval "$(zoxide init zsh)"
+fi
+
 # ========================= Konfigurasi bat (Pengganti cat) =========================
 if command -v bat &> /dev/null; then
   alias cat="bat"
@@ -124,19 +174,4 @@ elif command -v code &> /dev/null; then
 else
   export EDITOR='nano' ## Gunakan nano jika tidak ada yang lain
 fi
-
-# ========================= Bantuan untuk Alias =========================
-function alias-help() {
-  echo -e "\e[1;34mDaftar Alias yang Tersedia:\e[0m"
-  if [[ "$(uname)" == "Darwin" ]]; then
-    alias | grep -E 'MacOS' | sed 's/=.*##/ -->/' | while read -r line; do
-      printf "\e[1;32m%s\e[0m\n" "$line"
-    done
-  elif [[ "$(uname -s)" == "Linux" ]]; then
-    alias | grep -E 'Ubuntu|Debian' | sed 's/=.*##/ -->/' | while read -r line; do
-      printf "\e[1;32m%s\e[0m\n" "$line"
-    done
-  fi
-}
-alias alias-help="alias-help"
 
