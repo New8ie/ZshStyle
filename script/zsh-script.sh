@@ -70,6 +70,7 @@ sudo ln -s $HOME/.oh-my-zsh /root/.oh-my-zsh
 sudo ln -s $HOME/.zshrc /root/.zshrc
 sudo ln -s $HOME/.p10k.zsh /root/.p10k.zsh
 sudo ln -s $HOME/.config /root/.config
+sudo ln -s $HOME/.local /root/.local
 
 # **9. Finalisasi & Restart Shell**
 echo "✅ Instalasi selesai! Silakan jalankan 'exec zsh' atau logout & login kembali untuk mengaktifkan Zsh."
