@@ -1,8 +1,8 @@
 # ============================ PATH dan Variabel  ================================
 export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:/usr/local/share/myenv/bin:$PATH
-export PATH="$HOME/Library/Python/3.13/bin:$PATH"
-export PATH="$HOME/.local/share/nvim/lazy-rocks/bin:$PATH"
-export PYTHONPATH=/opt/homebrew/lib/python3.9/site-packages:$PYTHONPATH
+#export PATH="$HOME/Library/Python/3.13/bin:$PATH"
+#export PATH="$HOME/.local/share/nvim/lazy-rocks/bin:$PATH"
+#export PYTHONPATH=/opt/homebrew/lib/python3.9/site-packages:$PYTHONPATH
 export XDG_CONFIG_HOME="$HOME/.config"
 
 # ========================= Konfigurasi ZSH & Oh My Zsh =========================
@@ -18,17 +18,17 @@ source $ZSH/oh-my-zsh.sh
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # ========================= Konfigurasi MacOS =========================
-source ~/.iterm2_shell_integration.zsh
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+#source ~/.iterm2_shell_integration.zsh
+#test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
-export PATH="/opt/homebrew/opt/libtool/libexec/gnubin:$PATH"
-export PATH="$PATH:/Applications/OpenVPN Connect/OpenVPN Connect.app/contents/MacOS/"
-export PATH="/opt/homebrew/opt/curl/bin:$PATH"
-export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
-export PATH="/opt/homebrew/opt/node@20/bin:$PATH"
-export ARCHFLAGS="-arch $(uname -m)"
+#export PATH="/opt/homebrew/opt/libtool/libexec/gnubin:$PATH"
+#export PATH="$PATH:/Applications/OpenVPN Connect/OpenVPN Connect.app/contents/MacOS/"
+#export PATH="/opt/homebrew/opt/curl/bin:$PATH"
+#export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+#export PATH="/opt/homebrew/opt/node@20/bin:$PATH"
+#export ARCHFLAGS="-arch $(uname -m)"
 
-alias opvn="OpenVPN Connect" ## membuka aplikasi OpenVPN Connect
+#alias opvn="OpenVPN Connect" ## membuka aplikasi OpenVPN Connect
 
 # ========================= Alias untuk MacOS =========================
 if [[ "$(uname)" == "Darwin" ]]; then
@@ -78,7 +78,7 @@ if [[ "$(uname -s)" == "Linux" ]]; then
   alias showroute="ip route show" ## melihat tabel routing
   alias services="systemctl list-units --type=service --state=running" ## menampilkan layanan yang berjalan
   alias restartnetwork="sudo systemctl restart networking" ## me-restart jaringan
-  alias flushdns="sudo systemd-resolve --flush-caches" ## membersihkan cache DNS
+  alias dnsflush="sudo systemd-resolve --flush-caches" ## membersihkan cache DNS
 fi
 
 # ========================= Alias Umum =========================
