@@ -69,7 +69,7 @@ rm -rf ~/.config/nvim/.git
 
 Done!
 
-For more guide check the [lazyvim web][web] websiti
+For more guide check the [lazyvim web][web] website
 
 [screenshot]: https://github.com/New8ie/ZshStyle/blob/main/screenshot/lazyvim.png
 [web]: https://www.lazyvim.org/
