@@ -56,5 +56,5 @@ If it is not running, you can use the Services control panel to start it and mak
 
 
 
-[proxmox1]: https://github.com/New8ie/MyFresh-Install/blob/main/screenshot/Screen-vioserial-driver.png
-[proxmox2]: https://github.com/New8ie/MyFresh-Install/blob/main/screenshot/Screen-vioserial-device-manager.png
+[proxmox1]: https://github.com/New8ie/ZshStyle/blob/main/screenshot/Screen-vioserial-driver.png
+[proxmox2]: https://github.com/New8ie/ZshStyle/blob/main/screenshot/Screen-vioserial-device-manager.png
