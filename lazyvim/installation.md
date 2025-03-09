@@ -71,7 +71,7 @@ Done!
 
 For more guide check the [lazyvim web][web] websiti
 
-[screenshot]: https://github.com/New8ie/MyFresh-Install/blob/main/screenshot/lazyvim.png 
+[screenshot]: https://github.com/New8ie/ZshStyle/blob/main/screenshot/lazyvim.png
 [web]: https://www.lazyvim.org/
 
 
