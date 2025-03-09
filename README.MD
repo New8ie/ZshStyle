@@ -50,6 +50,8 @@ brew install eza
 ```bash
 ## Ubuntu / Debian
 sudo apt install bat
+mkdir -p ~/.local/bin
+ln -s /usr/bin/batcat ~/.local/bin/bat
 ## MacOS
 brew install bat
 ```
@@ -62,7 +64,7 @@ curl https://raw.githubusercontent.com/scopatz/nanorc/master/install.sh | sh
 * Grc
 ```bash
 ## Ubuntu / Debian
- sudo apt install grc
+ sudo apt install grc 
 ## MacOS
 brew install grc
 ```
@@ -139,8 +141,8 @@ ZSH_DISABLE_COMPFIX=true
 ```
 
 
-[grc]: https://github.com/New8ie/MyFresh-Install/blob/main/screenshot/grc.png
-[screenshot]: https://github.com/New8ie/MyFresh-Install/blob/main/screenshot/ohmyzsh.png
-[bat]: https://github.com/New8ie/MyFresh-Install/blob/main/screenshot/bat.png
-[eza]: https://github.com/New8ie/MyFresh-Install/blob/main/screenshot/eza.png
+[grc]: https://github.com/New8ie/ZshStyle/blob/main/screenshot/grc.png
+[screenshot]: https://github.com/New8ie/ZshStyle/blob/main/screenshot/ohmyzsh.png
+[bat]: https://github.com/New8ie/ZshStyle/blob/main/screenshot/bat.png
+[eza]: https://github.com/New8ie/ZshStyle/blob/main/screenshot/eza.png
 [zsh]: https://github.com/ohmyzsh/ohmyzsh/wiki/Installing-ZSH
