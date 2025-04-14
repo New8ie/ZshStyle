@@ -1,8 +1,8 @@
 # ============================ PATH dan Variabel  ================================
 export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:/usr/local/share/myenv/bin:$PATH
-#export PATH="$HOME/Library/Python/3.13/bin:$PATH"
-#export PATH="$HOME/.local/share/nvim/lazy-rocks/bin:$PATH"
-#export PYTHONPATH=/opt/homebrew/lib/python3.9/site-packages:$PYTHONPATH
+export PATH="$HOME/Library/Python/3.13/bin:$PATH"
+export PATH="$HOME/.local/share/nvim/lazy-rocks/bin:$PATH"
+export PYTHONPATH=/opt/homebrew/lib/python3.9/site-packages:$PYTHONPATH
 export XDG_CONFIG_HOME="$HOME/.config"
 
 # ========================= Konfigurasi ZSH & Oh My Zsh =========================
@@ -18,17 +18,17 @@ source $ZSH/oh-my-zsh.sh
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # ========================= Konfigurasi MacOS =========================
-#source ~/.iterm2_shell_integration.zsh
-#test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+source ~/.iterm2_shell_integration.zsh
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
-#export PATH="/opt/homebrew/opt/libtool/libexec/gnubin:$PATH"
-#export PATH="$PATH:/Applications/OpenVPN Connect/OpenVPN Connect.app/contents/MacOS/"
-#export PATH="/opt/homebrew/opt/curl/bin:$PATH"
-#export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
-#export PATH="/opt/homebrew/opt/node@20/bin:$PATH"
-#export ARCHFLAGS="-arch $(uname -m)"
+export PATH="/opt/homebrew/opt/libtool/libexec/gnubin:$PATH"
+export PATH="$PATH:/Applications/OpenVPN Connect/OpenVPN Connect.app/contents/MacOS/"
+export PATH="/opt/homebrew/opt/curl/bin:$PATH"
+export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+export PATH="/opt/homebrew/opt/node@20/bin:$PATH"
+export ARCHFLAGS="-arch $(uname -m)"
 
-#alias opvn="OpenVPN Connect" ## membuka aplikasi OpenVPN Connect
+alias opvn="OpenVPN Connect" ## membuka aplikasi OpenVPN Connect
 
 # ========================= Alias untuk MacOS =========================
 if [[ "$(uname)" == "Darwin" ]]; then
@@ -51,7 +51,6 @@ if [[ "$(uname)" == "Darwin" ]]; then
   alias unmute="osascript -e 'set volume output muted false'" ## mengaktifkan suara kembali
   alias restartfinder="killall Finder" ## me-restart Finder
   alias restartdock="killall Dock" ## me-restart Dock
-  alias flushcache="sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder" ## membersihkan cache DNS dan memperbarui konfigurasi jaringan
   alias listservices="launchctl list" ## menampilkan daftar layanan yang berjalan di macOS
   alias backupdock="defaults export com.apple.dock ~/Desktop/dock-backup.plist" ## menyimpan pengaturan Dock sebelum restart
   alias restoredock="defaults import com.apple.dock ~/Desktop/dock-backup.plist; killall Dock" ## mengembalikan pengaturan Dock setelah restart
@@ -67,32 +66,47 @@ if [[ "$(uname)" == "Darwin" ]]; then
   alias netport="netstat -an | grep LISTEN"
 fi
 # ========================= Alias untuk Linux (Ubuntu/Debian & lainnya) =========================
-if [[ "$(uname -s)" == "Linux" ]]; then
-  if [ -f /etc/debian_version ]; then
-    alias update="sudo apt update && sudo apt upgrade -y" ## update sistem
-    alias inst="sudo apt install" ## mempermudah instalasi paket
-    alias remove="sudo apt remove" ## menghapus paket
-    alias search="apt search" ## mencari paket
-    alias cleanup="sudo apt autoremove -y && sudo apt autoclean -y" ## membersihkan sistem
-    alias flushdns="sudo systemd-resolve --flush-caches" ## membersihkan cache DNS  "NOTE install dulu systemd-resolved "
-  elif [ -f /etc/arch-release ]; then
-    alias update="sudo pacman -Syu" ## update sistem Arch Linux
-    alias inst="sudo pacman -S" ## instalasi paket di Arch
-    alias remove="sudo pacman -Rns" ## menghapus paket di Arch
-    alias cleanup="sudo pacman -Sc" ## membersihkan cache pacman
-    alias flushdns="sudo systemctl restart systemd-resolved" ## membersihkan cache DNS di Arch
-  elif [ -f /etc/redhat-release ]; then
-    alias update="sudo dnf update -y" ## update sistem RHEL/CentOS
-    alias inst="sudo dnf install" ## instalasi paket di RHEL/CentOS
-    alias remove="sudo dnf remove" ## menghapus paket di RHEL/CentOS
-    alias cleanup="sudo dnf autoremove -y && sudo dnf clean all" ## membersihkan sistem
-    alias flushdns="sudo systemctl restart NetworkManager" ## membersihkan cache DNS di RHEL/CentOS
-  fi
-  alias myip="curl ifconfig.me" ## menampilkan IP publik
-  alias showroute="ip route show" ## melihat tabel routing
-  alias listport="netstat -tulnp" ## melihat port yang terbuka
-fi
+if [[ "$(uname -s)" == "Darwin" ]]; then
+  ## Alias khusus untuk macOS
+  alias update="brew update && brew upgrade"
+  alias inst="brew install"
+  alias remove="brew uninstall"
+  alias cleanup="brew cleanup"
+  alias flushdns="sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder"
 
+  alias myip="ipconfig getifaddr en0" # Bisa diganti ke en1 jika pakai Wi-Fi eksternal
+  alias showroute="netstat -rn"
+  alias listport="lsof -i -n -P | grep LISTEN"
+
+elif [[ "$(uname -s)" == "Linux" ]]; then
+  if [[ -f /etc/debian_version ]]; then
+    alias update="sudo apt update && sudo apt upgrade -y"
+    alias inst="sudo apt install"
+    alias remove="sudo apt remove"
+    alias search="apt search"
+    alias cleanup="sudo apt autoremove -y && sudo apt autoclean -y"
+    alias flushdns="sudo systemd-resolve --flush-caches"
+
+  elif [[ -f /etc/arch-release ]]; then
+    alias update="sudo pacman -Syu"
+    alias inst="sudo pacman -S"
+    alias remove="sudo pacman -Rns"
+    alias cleanup="sudo pacman -Sc"
+    alias flushdns="sudo systemctl restart systemd-resolved"
+
+  elif [[ -f /etc/redhat-release ]]; then
+    alias update="sudo dnf update -y"
+    alias inst="sudo dnf install"
+    alias remove="sudo dnf remove"
+    alias cleanup="sudo dnf autoremove -y && sudo dnf clean all"
+    alias flushdns="sudo systemctl restart NetworkManager"
+  fi
+
+  ## Alias umum untuk semua distro Linux
+  alias myip="curl ifconfig.me"
+  alias showroute="ip route show"
+  alias listport="netstat -tulnp"
+fi
 # ========================= Bantuan untuk Alias =========================
 function alias-help() {
   echo -e "\e[1;34mDaftar Alias yang Tersedia:\e[0m"
@@ -163,8 +177,40 @@ else
   alias cat="command cat" ## Menggunakan perintah cat asli jika bat tidak tersedia
 fi
 
+# ========================= Deteksi Sistem Operasi  ===================================
+# Deteksi Sistem Operasi
+OS_TYPE="$(uname -s)"
+
+if [[ "$OS_TYPE" == "Darwin" ]]; then
+  export PLATFORM="macOS"
+
+elif [[ "$OS_TYPE" == "Linux" ]]; then
+  export PLATFORM="Linux"
+
+  # Cek apakah Debian/Ubuntu
+  if [[ -f /etc/debian_version ]]; then
+    export DISTRO="Debian"
+  elif [[ -f /etc/arch-release ]]; then
+    export DISTRO="Arch"
+  else
+    export DISTRO="OtherLinux"
+  fi
+
+else
+  export PLATFORM="Unknown"
+  export DISTRO="Unknown"
+fi
+
 # ========================= Syntax Highlighting dan Warna =========================
-[[ -s "/etc/grc.zsh" ]] && source /etc/grc.zsh
+if [[ "$PLATFORM" == "macOS" ]]; then
+  [[ -s "/opt/homebrew/etc/grc.zsh" ]] && source "/opt/homebrew/etc/grc.zsh"
+
+elif [[ "$DISTRO" == "Debian" ]]; then
+  [[ -s "/etc/grc.zsh" ]] && source "/etc/grc.zsh"
+
+elif [[ "$DISTRO" == "Arch" ]]; then
+  [[ -s "/usr/share/grc/grc.zsh" ]] && source "/usr/share/grc/grc.zsh"
+fi
 
 # ========================= Preferensi Editor =========================
 if command -v nvim &> /dev/null; then
@@ -175,3 +221,7 @@ else
   export EDITOR='nano' ## Gunakan nano jika tidak ada yang lain
 fi
 
+
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/fachmi/.lmstudio/bin"
