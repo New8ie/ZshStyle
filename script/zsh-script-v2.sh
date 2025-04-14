@@ -37,7 +37,7 @@ install_packages() {
         brew install zsh git curl nano bat fzf grc gnupg eza
     elif [ "$OS_TYPE" = "debian" ]; then
         sudo apt update
-        sudo apt install -y zsh git curl nano fzf grc gnupg
+        sudo apt install -y zsh git curl nano fzf grc gnupg 
         install_bat_deb
         install_eza_deb
     fi
