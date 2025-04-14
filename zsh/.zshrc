@@ -4,7 +4,7 @@ export PATH="$HOME/Library/Python/3.13/bin:$PATH"
 export PATH="$HOME/.local/share/nvim/lazy-rocks/bin:$PATH"
 export PYTHONPATH=/opt/homebrew/lib/python3.9/site-packages:$PYTHONPATH
 export XDG_CONFIG_HOME="$HOME/.config"
-
+export ARCHFLAGS="-arch $(uname -m)"
 # ========================= Konfigurasi ZSH & Oh My Zsh =========================
 export ZSH="$HOME/.oh-my-zsh"
 export ZSH_DISABLE_COMPFIX=true
@@ -18,17 +18,15 @@ source $ZSH/oh-my-zsh.sh
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # ========================= Konfigurasi MacOS =========================
-source ~/.iterm2_shell_integration.zsh
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+#source ~/.iterm2_shell_integration.zsh
+#test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
-export PATH="/opt/homebrew/opt/libtool/libexec/gnubin:$PATH"
-export PATH="$PATH:/Applications/OpenVPN Connect/OpenVPN Connect.app/contents/MacOS/"
-export PATH="/opt/homebrew/opt/curl/bin:$PATH"
-export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
-export PATH="/opt/homebrew/opt/node@20/bin:$PATH"
-export ARCHFLAGS="-arch $(uname -m)"
+#export PATH="/opt/homebrew/opt/libtool/libexec/gnubin:$PATH"
+#export PATH="$PATH:/Applications/OpenVPN Connect/OpenVPN Connect.app/contents/MacOS/"
+#export PATH="/opt/homebrew/opt/curl/bin:$PATH"
+#export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+#export PATH="/opt/homebrew/opt/node@20/bin:$PATH"
 
-alias opvn="OpenVPN Connect" ## membuka aplikasi OpenVPN Connect
 
 # ========================= Alias untuk MacOS =========================
 if [[ "$(uname)" == "Darwin" ]]; then
@@ -64,6 +62,7 @@ if [[ "$(uname)" == "Darwin" ]]; then
   alias cleanup="rm -rf ~/Library/Caches/* && sudo purge" ## membersihkan file sementara dan cache
   alias listport="sudo lsof -i -P -n | grep LISTEN" ## melihat port yang sedang listening
   alias netport="netstat -an | grep LISTEN"
+  alias opvn="OpenVPN Connect" ## membuka aplikasi OpenVPN Connect
 fi
 # ========================= Alias untuk Linux (Ubuntu/Debian & lainnya) =========================
 if [[ "$(uname -s)" == "Darwin" ]]; then
@@ -221,7 +220,5 @@ else
   export EDITOR='nano' ## Gunakan nano jika tidak ada yang lain
 fi
 
-
-
 # Added by LM Studio CLI (lms)
-export PATH="$PATH:/Users/fachmi/.lmstudio/bin"
+#export PATH="$PATH:/Users/fachmi/.lmstudio/bin"
