@@ -81,7 +81,7 @@ fi
 
 
 ### ========= Install eza dari .deb ========= ###
-install_eza() {
+install_eza_deb() {
   log "Menginstal eza dari berkas tar.gz..."
 
   ARCHIVE=""
