@@ -44,7 +44,7 @@ elif [ "$OS_TYPE" = "debian" ]; then
 sudo apt update
 sudo apt install -y zsh git curl nano fzf grc gnupg
 install_bat_deb
-install_eza_deb
+install_eza
 fi
 }
 
@@ -81,7 +81,7 @@ fi
 
 
 ### ========= Install eza dari .deb ========= ###
-install_eza_deb() {
+install_eza() {
   log "Menginstal eza dari berkas tar.gz..."
 
   ARCHIVE=""
