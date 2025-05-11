@@ -182,10 +182,9 @@ main() {
   setup_powerlevel10k
   create_symlinks_for_root
 
-  log "\n✅ Instalasi Zsh environment selesai! 🎉"
-  log "\033[1;93mJalankan:\033[0m \033[1;32msudo chsh -s\033[0m \
-    $(\033[1;31mwhich\033[0m zsh) \033[1;96m\$USER\033[0m \033[1;93mUntuk mengubah shell default.\033[0m"
-  log "\033[1;93mJalankan:\033[0m \033[1;32mzsh\033[0m \033[1;93mUntuk mulai menggunakan Zsh.\033[0m"
+log "✅ Instalasi Zsh with environment selesai!🎉 "
+log "\033[1;93mJalankan:\033[0m \033[1;32msudo chsh -s\033[0m \$(\033[1;31mwhich\033[0m zsh) \033[1;96m\$USER\033[0m -> \033[1;93mUntuk menganti default shell ke current user.\033[0m"
+log "\033[1;93mJalankan:\033[0m \033[1;32mzsh\033[0m -> \033[1;93mUntuk mulai menggunakan zsh shell.\033[0m"
 }
 
 main "$@"
