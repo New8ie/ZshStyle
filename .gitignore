@@ -13,5 +13,8 @@ ssh/
 .secret
 .log
 .ssh/
-config
+oh-my-posh/
 .DS_Store
+powershell/
+noted/
+proxmox/
