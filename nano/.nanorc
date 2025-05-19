@@ -235,8 +235,10 @@ set tabstospaces
 
 
 ## Nanorc files
-
-include "/opt/homebrew/Cellar/nanorc/2020.10.10/share/nanorc/*.nanorc"
+## For MacOS
+# include "/opt/homebrew/Cellar/nanorc/2020.10.10/share/nanorc/*.nanorc"
+## For linux
+ include "$HOME/.nano/*nanorc"
 
 
 
