@@ -115,7 +115,7 @@ wget -qO-https://raw.githubusercontent.com/New8ie/ZshStyle/refs/heads/main/zsh/.
 
 Here is a bash script to auto install and download the required files.
 ```bash
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/New8ie/ZshStyle/refs/heads/main/script/zsh-script-v4.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/New8ie/ZshStyle/refs/heads/main/script/zsh-script.sh)"
 ```
 
 
