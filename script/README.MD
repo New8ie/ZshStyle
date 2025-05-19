@@ -34,5 +34,5 @@ Automated Zsh environment setup script for **macOS**, **Debian/Ubuntu**, and **R
 ```bash
 git clone https://github.com/New8ie/ZshStyle.git
 cd script
-chmod +x zsh-script-v4.sh
-./zsh-script-v4.sh
+chmod +x zsh-script.sh
+./zsh-script.sh
