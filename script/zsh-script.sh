@@ -168,6 +168,7 @@ download_config_files() {
   curl -fsSL -o "$HOME/.p10k.zsh" https://raw.githubusercontent.com/New8ie/ZshStyle/refs/heads/main/zsh/.p10k.zsh || warn "Gagal unduh .p10k.zsh"
   curl -fsSL -o "$HOME/.zprofile" https://raw.githubusercontent.com/New8ie/ZshStyle/refs/heads/main/zsh/.zprofile || warn "Gagal unduh .zprofile"
   curl -fsSL -o "$HOME/.nanorc" https://raw.githubusercontent.com/New8ie/ZshStyle/refs/heads/main/nano/.nanorc || warn "Gagal unduh .nanorc"
+  curl -fsSL -o "$HOME/.nano/nanorc.nanorc" https://raw.githubusercontent.com/New8ie/ZshStyle/refs/heads/main/nano/.nano/nanorc.nanorc || warn "Gagal unduh .nanorc"
   curl -fsSL -o "$HOME/.config/neofetch/config.conf" https://raw.githubusercontent.com/New8ie/ZshStyle/refs/heads/main/neofetch/config.conf || warn "Gagal unduh config.conf"
   curl -fsSL -o "$HOME/.config/neofetch/motd-script.sh" https://raw.githubusercontent.com/New8ie/ZshStyle/refs/heads/main/script/motd-script.sh || warn "Gagal unduh motd-script.sh"
 
