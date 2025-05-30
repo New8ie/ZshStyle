@@ -44,18 +44,19 @@ install_packages() {
 
   elif [[ "$OS_TYPE" == "debian" || "$OS_TYPE" == "raspbian" ]]; then
     sudo apt update
-    sudo apt install -y zsh git curl nano fzf grc gnupg lolcat neofetch pv
+    sudo apt install -y zsh git gzip  curl nano fzf grc gnupg lolcat pv
     install_bat_deb
     install_eza_deb
+    install_neofetch_or_fastfetch
 
     log "Meng-clone konfigurasi nanorc dari scopatz..."
     curl https://raw.githubusercontent.com/scopatz/nanorc/master/install.sh | sh || warn "Gagal clone nanorc"
   fi
 }
 
-### ========= Install bat dari GitHub Release ========= ###
+### ========= Install bat dari GitHub Releases ========= ###
 install_bat_deb() {
-  log "Menginstall bat (.deb manual)..."
+  log "Menginstall bat dari GitHub releases..."
 
   ARCH_DEB=""
   case "$ARCH_TYPE" in
@@ -64,7 +65,7 @@ install_bat_deb() {
     *) err "Arsitektur tidak dikenali untuk bat." ;;
   esac
 
-  VERSION="0.24.0"
+  VERSION=$(curl -s https://api.github.com/repos/sharkdp/bat/releases/latest | grep tag_name | cut -d '"' -f4 | sed 's/^v//')
   FILENAME="bat_${VERSION}_${ARCH_DEB}.deb"
   URL="https://github.com/sharkdp/bat/releases/download/v${VERSION}/${FILENAME}"
   TEMP_DEB="/tmp/$FILENAME"
@@ -78,28 +79,38 @@ install_bat_deb() {
   fi
 }
 
-### ========= Install eza dari GitHub Release ========= ###
+### ========= Install eza dari GitHub Releases resmi ========= ###
 install_eza_deb() {
-  log "Menginstal eza dari berkas tar.gz..."
+  log "Menginstall eza dari GitHub releases resmi..."
 
-  ARCHIVE=""
   case "$ARCH_TYPE" in
-    x86_64) ARCHIVE="eza_x86_64-unknown-linux-gnu.tar.gz" ;;
-    aarch64 | arm64 | armv7l) ARCHIVE="eza_aarch64-unknown-linux-gnu.tar.gz" ;;
+    x86_64) ARCH_DEB="x86_64-unknown-linux-gnu" ;;
+    aarch64 | arm64) ARCH_DEB="aarch64-unknown-linux-gnu" ;;
+    armv7l) ARCH_DEB="armv7-unknown-linux-gnueabihf" ;;
     *) err "Arsitektur tidak dikenali untuk eza." ;;
   esac
 
-  VERSION="0.20.2"
-  URL="https://github.com/eza-community/eza/releases/download/v${VERSION}/${ARCHIVE}"
-  TEMP_DIR="/tmp/eza_install"
+  VERSION=$(curl -s https://api.github.com/repos/eza-community/eza/releases/latest | grep '"tag_name":' | cut -d '"' -f4)
+  TARBALL="eza_${ARCH_DEB}.tar.gz"
+  URL="https://github.com/eza-community/eza/releases/download/${VERSION}/${TARBALL}"
+  TEMP_DIR="/tmp/eza-${VERSION}"
 
   mkdir -p "$TEMP_DIR"
-  curl -fL -o "$TEMP_DIR/$ARCHIVE" "$URL" || err "Gagal mengunduh eza"
-  tar -xzf "$TEMP_DIR/$ARCHIVE" -C "$TEMP_DIR"
-  sudo mv "$TEMP_DIR/eza" /usr/local/bin/eza || err "Gagal memindahkan biner eza"
+  log "Mengunduh $URL ..."
+  curl -fL "$URL" | tar -xz -C "$TEMP_DIR" || err "[ERROR] Gagal mengunduh dan ekstrak eza"
+  sudo install -m755 "$TEMP_DIR/eza" /usr/local/bin/eza
   rm -rf "$TEMP_DIR"
 
-  log "eza berhasil diinstal."
+  log "eza versi $VERSION berhasil diinstall."
+}
+
+
+### ========= Install Neofetch atau Fastfetch ========= ###
+install_neofetch_or_fastfetch() {
+  if ! sudo apt install -y neofetch; then
+    warn "Gagal install neofetch, mencoba fastfetch..."
+    sudo apt install -y fastfetch || warn "Gagal install fastfetch juga."
+  fi
 }
 
 ### ========= Install Oh My Zsh ========= ###
@@ -142,25 +153,23 @@ clone_plugins() {
   clone_plugin "https://github.com/z-shell/zsh-eza.git" "$ZSH_CUSTOM/plugins/zsh-eza"
 }
 
-### ========= Setup Powerlevel10k + Config ========= ###
+### ========= Setup Powerlevel10k ========= ###
 setup_powerlevel10k() {
   log "Menginstall Powerlevel10k..."
   clone_plugin "https://github.com/romkatv/powerlevel10k.git" "$ZSH_CUSTOM/themes/powerlevel10k"
+}
 
-  if [ ! -d "$HOME/.config/neofetch" ]; then
-    log "Membuat folder ~/.config/neofetch..."
-    mkdir -p "$HOME/.config/neofetch"
-  else
-    log "Folder ~/.config/neofetch sudah ada."
-  fi
+### ========= Unduh Konfigurasi dari GitHub ========= ###
+download_config_files() {
+  log "Mengunduh konfigurasi zsh dan lainnya dari GitHub..."
+  mkdir -p "$HOME/.config/neofetch"
 
-  log "Mengunduh konfigurasi zsh dan lainnya..."
-  curl -fsSL -o "$HOME/.zshrc" https://raw.githubusercontent.com/New8ie/ZshStyle/refs/heads/main/zsh/.zshrc
-  curl -fsSL -o "$HOME/.p10k.zsh" https://raw.githubusercontent.com/New8ie/ZshStyle/refs/heads/main/zsh/.p10k.zsh
-  curl -fsSL -o "$HOME/.zprofile" https://raw.githubusercontent.com/New8ie/ZshStyle/refs/heads/main/zsh/.zprofile
-  curl -fsSL -o "$HOME/.nanorc" https://raw.githubusercontent.com/New8ie/ZshStyle/refs/heads/main/nano/.nanorc
-  curl -fsSL -o "$HOME/.config/neofetch/config.conf" https://raw.githubusercontent.com/New8ie/ZshStyle/refs/heads/main/neofetch/config.conf
-  curl -fsSL -o "$HOME/.config/neofetch/motd-script.sh" https://raw.githubusercontent.com/New8ie/ZshStyle/refs/heads/main/script/motd-script.sh
+  curl -fsSL -o "$HOME/.zshrc" https://raw.githubusercontent.com/New8ie/ZshStyle/refs/heads/main/zsh/.zshrc || warn "Gagal unduh .zshrc"
+  curl -fsSL -o "$HOME/.p10k.zsh" https://raw.githubusercontent.com/New8ie/ZshStyle/refs/heads/main/zsh/.p10k.zsh || warn "Gagal unduh .p10k.zsh"
+  curl -fsSL -o "$HOME/.zprofile" https://raw.githubusercontent.com/New8ie/ZshStyle/refs/heads/main/zsh/.zprofile || warn "Gagal unduh .zprofile"
+  curl -fsSL -o "$HOME/.nanorc" https://raw.githubusercontent.com/New8ie/ZshStyle/refs/heads/main/nano/.nanorc || warn "Gagal unduh .nanorc"
+  curl -fsSL -o "$HOME/.config/neofetch/config.conf" https://raw.githubusercontent.com/New8ie/ZshStyle/refs/heads/main/neofetch/config.conf || warn "Gagal unduh config.conf"
+  curl -fsSL -o "$HOME/.config/neofetch/motd-script.sh" https://raw.githubusercontent.com/New8ie/ZshStyle/refs/heads/main/script/motd-script.sh || warn "Gagal unduh motd-script.sh"
 
   chmod +x "$HOME/.config/neofetch/motd-script.sh"
 }
@@ -183,6 +192,7 @@ main() {
   install_oh_my_zsh
   clone_plugins
   setup_powerlevel10k
+  download_config_files
   create_symlinks_for_root
 
   log "✅ Instalasi Zsh with environment selesai!🎉 "
