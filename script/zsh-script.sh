@@ -40,7 +40,7 @@ install_packages() {
       log "Menginstall Homebrew..."
       /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     fi
-    brew install zsh git curl nano bat fzf grc gnupg eza lolcat neofetch pv viu imgcat
+    brew install zsh git curl nano bat fzf grc gnupg eza lolcat neofetch pv viu 
 
   elif [[ "$OS_TYPE" == "debian" || "$OS_TYPE" == "raspbian" ]]; then
     sudo apt update
@@ -114,13 +114,27 @@ install_neofetch_or_fastfetch() {
   fi
 }
 
-### ========= Install imgcat (iTerm2 utils) ========= ###
+
+### ========= Install imgcat (hanya untuk macOS) ========= ###
 install_imgcat() {
-  log "Menginstall imgcat..."
-  sudo mkdir -p /usr/local/bin
-  curl -fsSL https://iterm2.com/utilities/imgcat -o /tmp/imgcat || warn "Gagal mengunduh imgcat"
-  sudo install -m755 /tmp/imgcat /usr/local/bin/imgcat
-  rm -f /tmp/imgcat
+  if [[ "$distro" == "macos" ]]; then
+    log "Menginstall imgcat untuk macOS (iTerm2)..."
+
+    if ! command -v imgcat &>/dev/null; then
+      mkdir -p "$HOME/.local/bin"
+      curl -fsSL -o "$HOME/.local/bin/imgcat" https://iterm2.com/utilities/imgcat \
+        || { warn "Gagal mengunduh imgcat"; return; }
+
+      chmod +x "$HOME/.local/bin/imgcat"
+      export PATH="$HOME/.local/bin:$PATH"
+
+      log "✅ imgcat berhasil diinstal di ~/.local/bin"
+    else
+      log "imgcat sudah tersedia."
+    fi
+  else
+    log "Lewati instalasi imgcat karena OS saat ini bukan macOS."
+  fi
 }
 
 ### ========= Install viu (image viewer CLI) ========= ###
