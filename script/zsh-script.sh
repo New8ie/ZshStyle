@@ -21,7 +21,7 @@ detect_os_arch() {
       elif [ -f /etc/debian_version ]; then
         OS_TYPE="debian"
       else
-        err "OS Linux ini belum didukung (bukan Debian/Ubuntu)."
+        err "Distro Linux ini belum didukung (Hanya support Debian/Ubuntu)."
       fi
       ;;
     *)
@@ -44,7 +44,7 @@ install_packages() {
 
   elif [[ "$OS_TYPE" == "debian" || "$OS_TYPE" == "raspbian" ]]; then
     sudo apt update
-    sudo apt install -y zsh git gzip  curl nano fzf grc gnupg lolcat pv
+    sudo apt install -y zsh git gzip curl nano fzf grc gnupg lolcat pv
     install_bat_deb
     install_eza_deb
     install_neofetch_or_fastfetch
@@ -170,7 +170,7 @@ download_config_files() {
   curl -fsSL -o "$HOME/.nanorc" https://raw.githubusercontent.com/New8ie/ZshStyle/refs/heads/main/nano/.nanorc || warn "Gagal unduh .nanorc"
   curl -fsSL -o "$HOME/.nano/nanorc.nanorc" https://raw.githubusercontent.com/New8ie/ZshStyle/refs/heads/main/nano/.nano/nanorc.nanorc || warn "Gagal unduh .nanorc"
   curl -fsSL -o "$HOME/.config/neofetch/config.conf" https://raw.githubusercontent.com/New8ie/ZshStyle/refs/heads/main/neofetch/config.conf || warn "Gagal unduh config.conf"
-  curl -fsSL -o "$HOME/.config/neofetch/motd-script.sh" https://raw.githubusercontent.com/New8ie/ZshStyle/refs/heads/main/script/motd-script.sh || warn "Gagal unduh motd-script.sh"
+  curl -fsSL -o "$HOME/.config/neofetch/motd-script.sh" https://raw.githubusercontent.com/New8ie/ZshStyle/refs/heads/main/script/motd-script-v3.sh || warn "Gagal unduh motd-script.sh"
 
   chmod +x "$HOME/.config/neofetch/motd-script.sh"
 }
