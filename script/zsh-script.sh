@@ -40,7 +40,7 @@ install_packages() {
       log "Menginstall Homebrew..."
       /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     fi
-    brew install zsh git curl nano bat fzf grc gnupg eza lolcat neofetch pv
+    brew install zsh git curl nano bat fzf grc gnupg eza lolcat neofetch pv viu imgcat
 
   elif [[ "$OS_TYPE" == "debian" || "$OS_TYPE" == "raspbian" ]]; then
     sudo apt update
@@ -48,6 +48,8 @@ install_packages() {
     install_bat_deb
     install_eza_deb
     install_neofetch_or_fastfetch
+    install_imgcat
+    install_viu
 
     log "Meng-clone konfigurasi nanorc dari scopatz..."
     curl https://raw.githubusercontent.com/scopatz/nanorc/master/install.sh | sh || warn "Gagal clone nanorc"
@@ -104,13 +106,41 @@ install_eza_deb() {
   log "eza versi $VERSION berhasil diinstall."
 }
 
-
 ### ========= Install Neofetch atau Fastfetch ========= ###
 install_neofetch_or_fastfetch() {
   if ! sudo apt install -y neofetch; then
     warn "Gagal install neofetch, mencoba fastfetch..."
     sudo apt install -y fastfetch || warn "Gagal install fastfetch juga."
   fi
+}
+
+### ========= Install imgcat (iTerm2 utils) ========= ###
+install_imgcat() {
+  log "Menginstall imgcat..."
+  sudo mkdir -p /usr/local/bin
+  curl -fsSL https://iterm2.com/utilities/imgcat -o /tmp/imgcat || warn "Gagal mengunduh imgcat"
+  sudo install -m755 /tmp/imgcat /usr/local/bin/imgcat
+  rm -f /tmp/imgcat
+}
+
+### ========= Install viu (image viewer CLI) ========= ###
+install_viu() {
+  log "Menginstall viu..."
+
+  case "$ARCH_TYPE" in
+    x86_64) ARCH_DL="x86_64-unknown-linux-musl" ;;
+    aarch64 | arm64) ARCH_DL="aarch64-unknown-linux-musl" ;;
+    armv7l) ARCH_DL="armv7-unknown-linux-musleabihf" ;;
+    *) err "Arsitektur tidak dikenali untuk viu." ;;
+  esac
+
+  VERSION=$(curl -s https://api.github.com/repos/atanunq/viu/releases/latest | grep '"tag_name":' | cut -d '"' -f4)
+  FILE="viu-${ARCH_DL}.tar.gz"
+  URL="https://github.com/atanunq/viu/releases/download/${VERSION}/${FILE}"
+
+  curl -fL "$URL" | tar xz -C /tmp || err "Gagal mengunduh viu"
+  sudo install -m755 /tmp/viu /usr/local/bin/viu
+  rm -f /tmp/viu
 }
 
 ### ========= Install Oh My Zsh ========= ###
