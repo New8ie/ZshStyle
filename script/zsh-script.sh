@@ -134,17 +134,17 @@ install_viu() {
     *) err "Arsitektur tidak dikenali untuk viu." ;;
   esac
 
-  VERSION=$(curl -s https://api.github.com/repos/atanunq/viu/releases/latest | grep '"tag_name":' | cut -d '"' -f4)
-  FILE="viu-${ARCH_DL}.zip"
+  VERSION="v1.5.1"
+  FILE="viu-${ARCH_DL}"
   URL="https://github.com/atanunq/viu/releases/download/${VERSION}/${FILE}"
 
   TEMP_DIR=$(mktemp -d)
-  curl -fsSL "$URL" -o "$TEMP_DIR/viu.zip" || err "Gagal mengunduh viu (URL: $URL)"
-  unzip "$TEMP_DIR/viu.zip" -d "$TEMP_DIR" || err "Gagal mengekstrak viu zip"
+  curl -fsSL "$URL" -o "$TEMP_DIR/viu" || err "Gagal mengunduh viu (URL: $URL)"
+  chmod +x "$TEMP_DIR/viu"
   sudo install -m755 "$TEMP_DIR/viu" /usr/local/bin/viu || err "Gagal install viu"
   rm -rf "$TEMP_DIR"
 
-  log "✅ viu berhasil diinstall."
+  log "✅ viu v1.5.1 berhasil diinstall."
 }
 
 ### ========= Install Oh My Zsh ========= ###
