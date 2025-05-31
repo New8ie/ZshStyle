@@ -117,7 +117,7 @@ install_neofetch_or_fastfetch() {
 
 ### ========= Install imgcat (hanya untuk macOS) ========= ###
 install_imgcat() {
-  if [[ "$distro" == "macos" ]]; then
+  if [[ "$OS_TYPE" == "macos" ]]; then
     log "Menginstall imgcat untuk macOS (iTerm2)..."
 
     if ! command -v imgcat &>/dev/null; then
