@@ -139,13 +139,23 @@ install_viu() {
   URL="https://github.com/atanunq/viu/releases/download/${VERSION}/${FILE}"
 
   TEMP_DIR=$(mktemp -d)
-  curl -fsSL "$URL" -o "$TEMP_DIR/viu" || err "Gagal mengunduh viu (URL: $URL)"
-  chmod +x "$TEMP_DIR/viu"
-  sudo install -m755 "$TEMP_DIR/viu" /usr/local/bin/viu || err "Gagal install viu"
-  rm -rf "$TEMP_DIR"
-
-  log "✅ viu v1.5.1 berhasil diinstall."
+  if curl -fsSL "$URL" -o "$TEMP_DIR/viu"; then
+    chmod +x "$TEMP_DIR/viu"
+    sudo install -m755 "$TEMP_DIR/viu" /usr/local/bin/viu || {
+      rm -rf "$TEMP_DIR"
+      err "Gagal install viu"
+    }
+    log "✅ viu v1.5.1 berhasil diinstall."
+  else
+    rm -rf "$TEMP_DIR"
+    if command -v imgcat >/dev/null 2>&1; then
+      warn "Gagal mengunduh viu, tapi imgcat tersedia. Melanjutkan..."
+    else
+      err "Gagal mengunduh viu dan imgcat tidak tersedia. Tidak bisa menampilkan gambar logo."
+    fi
+  fi
 }
+
 
 ### ========= Install Oh My Zsh ========= ###
 install_oh_my_zsh() {
