@@ -44,7 +44,7 @@ install_packages() {
 
   elif [[ "$OS_TYPE" == "debian" || "$OS_TYPE" == "raspbian" ]]; then
     sudo apt update
-    sudo apt install -y zsh git gzip curl nano fzf grc gnupg lolcat pv
+    sudo apt install -y zsh git gzip curl unzip nano fzf grc gnupg lolcat pv
     install_bat_deb
     install_eza_deb
     install_neofetch_or_fastfetch
@@ -135,14 +135,17 @@ install_viu() {
   esac
 
   VERSION=$(curl -s https://api.github.com/repos/atanunq/viu/releases/latest | grep '"tag_name":' | cut -d '"' -f4)
-  FILE="viu-${ARCH_DL}.tar.gz"
+  FILE="viu-${ARCH_DL}.zip"
   URL="https://github.com/atanunq/viu/releases/download/${VERSION}/${FILE}"
 
-  curl -fL "$URL" | tar xz -C /tmp || err "Gagal mengunduh viu"
-  sudo install -m755 /tmp/viu /usr/local/bin/viu
-  rm -f /tmp/viu
-}
+  TEMP_DIR=$(mktemp -d)
+  curl -fL "$URL" -o "$TEMP_DIR/viu.zip" || err "Gagal mengunduh viu"
+  unzip "$TEMP_DIR/viu.zip" -d "$TEMP_DIR" || err "Gagal mengekstrak viu"
+  sudo install -m755 "$TEMP_DIR/viu" /usr/local/bin/viu || err "Gagal install viu"
+  rm -rf "$TEMP_DIR"
 
+  log "✅ viu berhasil diinstall."
+}
 ### ========= Install Oh My Zsh ========= ###
 install_oh_my_zsh() {
   export ZSH="${ZSH:-$HOME/.oh-my-zsh}"
