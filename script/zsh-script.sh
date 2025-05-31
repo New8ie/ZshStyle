@@ -170,7 +170,7 @@ download_config_files() {
   curl -fsSL -o "$HOME/.nanorc" https://raw.githubusercontent.com/New8ie/ZshStyle/refs/heads/main/nano/.nanorc || warn "Gagal unduh .nanorc"
   curl -fsSL -o "$HOME/.nano/nanorc.nanorc" https://raw.githubusercontent.com/New8ie/ZshStyle/refs/heads/main/nano/.nano/nanorc.nanorc || warn "Gagal unduh .nanorc"
   curl -fsSL -o "$HOME/.config/neofetch/config.conf" https://raw.githubusercontent.com/New8ie/ZshStyle/refs/heads/main/neofetch/config.conf || warn "Gagal unduh config.conf"
-  curl -fsSL -o "$HOME/.config/neofetch/motd-script.sh" https://raw.githubusercontent.com/New8ie/ZshStyle/refs/heads/main/script/motd-script-v3.sh || warn "Gagal unduh motd-script.sh"
+  curl -fsSL -o "$HOME/.config/neofetch/motd-script.sh" https://raw.githubusercontent.com/New8ie/ZshStyle/refs/heads/main/script/motd-multi-os.sh || warn "Gagal unduh motd-script.sh"
   curl -fsSL -o "$HOME/.config/neofetch/macos-logo.png" https://raw.githubusercontent.com/New8ie/ZshStyle/refs/heads/main/neofetch/macos-logo.png || warn "Gagal unduh macos-logo.png"
   curl -fsSL -o "$HOME/.config/neofetch/debian-logo.png" https://raw.githubusercontent.com/New8ie/ZshStyle/refs/heads/main/neofetch/debian-logo.png || warn "Gagal unduh debian-logo.png"
   curl -fsSL -o "$HOME/.config/neofetch/ubuntu-logo.png" https://raw.githubusercontent.com/New8ie/ZshStyle/refs/heads/main/neofetch/ubuntu-logo.png || warn "Gagal unduh ubuntu-logo.png"
