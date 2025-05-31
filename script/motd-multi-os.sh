@@ -22,7 +22,9 @@ case "$os_name" in
     Linux)
         if [ "$is_rpi" = true ]; then
             logo_name="raspberrypi-logo.png"
-        elif [[ "$distro" == "debian" || "$distro" == "ubuntu" ]]; then
+        elif [[ "$distro" == "ubuntu" ]]; then
+            logo_name="ubuntu-logo.png"
+        elif [[ "$distro" == "debian" ]]; then
             logo_name="debian-logo.png"
         else
             logo_name="linux-generic-logo.png"
@@ -32,7 +34,6 @@ case "$os_name" in
         logo_name="unknown-logo.png"
         ;;
 esac
-
 # Path lengkap logo
 image_path="$HOME/.config/neofetch/$logo_name"
 
