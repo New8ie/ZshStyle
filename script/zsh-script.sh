@@ -139,13 +139,14 @@ install_viu() {
   URL="https://github.com/atanunq/viu/releases/download/${VERSION}/${FILE}"
 
   TEMP_DIR=$(mktemp -d)
-  curl -fL "$URL" -o "$TEMP_DIR/viu.zip" || err "Gagal mengunduh viu"
-  unzip "$TEMP_DIR/viu.zip" -d "$TEMP_DIR" || err "Gagal mengekstrak viu"
+  curl -fsSL "$URL" -o "$TEMP_DIR/viu.zip" || err "Gagal mengunduh viu (URL: $URL)"
+  unzip "$TEMP_DIR/viu.zip" -d "$TEMP_DIR" || err "Gagal mengekstrak viu zip"
   sudo install -m755 "$TEMP_DIR/viu" /usr/local/bin/viu || err "Gagal install viu"
   rm -rf "$TEMP_DIR"
 
   log "✅ viu berhasil diinstall."
 }
+
 ### ========= Install Oh My Zsh ========= ###
 install_oh_my_zsh() {
   export ZSH="${ZSH:-$HOME/.oh-my-zsh}"
