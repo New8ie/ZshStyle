@@ -221,12 +221,25 @@ setup_powerlevel10k() {
 download_config_files() {
   log "Mengunduh konfigurasi zsh dan lainnya dari GitHub..."
   mkdir -p "$HOME/.config/neofetch"
+  mkdir -p "$HOME/.nano"
 
-  curl -fsSL -o "$HOME/.zshrc" https://raw.githubusercontent.com/New8ie/ZshStyle/refs/heads/main/zsh/.zshrc || warn "Gagal unduh .zshrc"
+  OS_TYPE="$(uname)"
+
+  if [[ "$OS_TYPE" == "Darwin" ]]; then
+    log "Terdeteksi macOS"
+    curl -fsSL -o "$HOME/.zshrc" https://raw.githubusercontent.com/New8ie/ZshStyle/refs/heads/main/zsh/.macos-zshrc || warn "Gagal unduh .macos-zshrc"
+  elif [[ "$OS_TYPE" == "Linux" ]]; then
+    log "Terdeteksi Linux"
+    curl -fsSL -o "$HOME/.zshrc" https://raw.githubusercontent.com/New8ie/ZshStyle/refs/heads/main/zsh/.zshrc || warn "Gagal unduh .zshrc"
+  else
+    warn "OS tidak dikenali: $OS_TYPE. Lewati unduhan .zshrc"
+  fi
+
+  # Umum untuk semua OS:
   curl -fsSL -o "$HOME/.p10k.zsh" https://raw.githubusercontent.com/New8ie/ZshStyle/refs/heads/main/zsh/.p10k.zsh || warn "Gagal unduh .p10k.zsh"
   curl -fsSL -o "$HOME/.zprofile" https://raw.githubusercontent.com/New8ie/ZshStyle/refs/heads/main/zsh/.zprofile || warn "Gagal unduh .zprofile"
   curl -fsSL -o "$HOME/.nanorc" https://raw.githubusercontent.com/New8ie/ZshStyle/refs/heads/main/nano/.nanorc || warn "Gagal unduh .nanorc"
-  curl -fsSL -o "$HOME/.nano/nanorc.nanorc" https://raw.githubusercontent.com/New8ie/ZshStyle/refs/heads/main/nano/.nano/nanorc.nanorc || warn "Gagal unduh .nanorc"
+  curl -fsSL -o "$HOME/.nano/nanorc.nanorc" https://raw.githubusercontent.com/New8ie/ZshStyle/refs/heads/main/nano/nanorc.nanorc || warn "Gagal unduh nanorc.nanorc"
   curl -fsSL -o "$HOME/.config/neofetch/config.conf" https://raw.githubusercontent.com/New8ie/ZshStyle/refs/heads/main/neofetch/config.conf || warn "Gagal unduh config.conf"
   curl -fsSL -o "$HOME/.config/neofetch/motd-script.sh" https://raw.githubusercontent.com/New8ie/ZshStyle/refs/heads/main/script/motd-multi-os.sh || warn "Gagal unduh motd-script.sh"
   curl -fsSL -o "$HOME/.config/neofetch/macos-logo.png" https://raw.githubusercontent.com/New8ie/ZshStyle/refs/heads/main/neofetch/macos-logo.png || warn "Gagal unduh macos-logo.png"
@@ -236,6 +249,7 @@ download_config_files() {
 
   chmod +x "$HOME/.config/neofetch/motd-script.sh"
 }
+
 
 ### ========= Symlink untuk Root User ========= ###
 create_symlinks_for_root() {

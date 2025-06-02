@@ -24,10 +24,3 @@ if [ "$OS_TYPE" = "Darwin" ]; then
     eval "$(/opt/homebrew/bin/brew shellenv)"
   fi
 fi
-
-################# Jalankan Skrip Animasi Login #################
-
-MOTD_SCRIPT="$HOME/.config/neofetch/motd-script.sh"
-if [ -f "$MOTD_SCRIPT" ]; then
-  bash "$MOTD_SCRIPT"
-fi
