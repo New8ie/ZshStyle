@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Tambahkan PATH snap dan local
-export PATH="/snap/bin:/usr/local/bin:$HOME/.local/bin:$PATH
+export PATH="/snap/bin:/usr/local/bin:$PATH"
 
 # === DETEKSI OS ===
 os_name="$(uname -s)"
