@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ============================
-# Auto Installer Zabbix Agent2
+# Auto Installer Zabbix Agent2 (Final Version)
 # Supports: Debian, Ubuntu, Raspbian, macOS
 # Author: Fachmi (Optimized by ChatGPT)
 # ============================
@@ -49,11 +49,15 @@ is_latest_zabbix_version() {
 
 configure_zabbix_agent2() {
   local conf="/etc/zabbix/zabbix_agent2.conf"
-  sudo sed -i "s|^Server=.*|Server=${ZBX_SERVERS}|" "$conf"
-  sudo sed -i "s|^ServerActive=.*|ServerActive=${ZBX_SERVERS}|" "$conf"
-  sudo sed -i "s|^Hostname=.*|Hostname=${ZBX_HOSTNAME}|" "$conf"
-  sudo sed -i "s|^# ListenPort=.*|ListenPort=${ZBX_PORT}|" "$conf"
-  log_info "Konfigurasi diterapkan pada: $conf"
+  if [[ -f "$conf" ]]; then
+    sudo sed -i "s|^Server=.*|Server=${ZBX_SERVERS}|" "$conf"
+    sudo sed -i "s|^ServerActive=.*|ServerActive=${ZBX_SERVERS}|" "$conf"
+    sudo sed -i "s|^Hostname=.*|Hostname=${ZBX_HOSTNAME}|" "$conf"
+    sudo sed -i "s|^# ListenPort=.*|ListenPort=${ZBX_PORT}|" "$conf"
+    log_info "Konfigurasi diperbarui di: $conf"
+  else
+    log_warn "Konfigurasi $conf tidak ditemukan!"
+  fi
 }
 
 install_debian_family() {
@@ -72,11 +76,6 @@ install_debian_family() {
   sudo dpkg -i "$tmpdeb"
   sudo apt-get update -qq
   sudo apt-get install -y zabbix-agent2
-
-  configure_zabbix_agent2
-  sudo systemctl restart zabbix-agent2
-  sudo systemctl enable zabbix-agent2
-  log_info "Zabbix Agent2 berhasil terinstall dan dijalankan."
 }
 
 install_macos() {
@@ -124,9 +123,14 @@ main() {
     case "$ID" in
       debian|ubuntu|raspbian)
         if is_latest_zabbix_version; then
-          exit 0
+          log_info "Memperbarui konfigurasi meskipun versi Zabbix Agent2 sudah terbaru..."
+          configure_zabbix_agent2
+          sudo systemctl restart zabbix-agent2
         else
           install_debian_family "$ID"
+          configure_zabbix_agent2
+          sudo systemctl restart zabbix-agent2
+          sudo systemctl enable zabbix-agent2
         fi
         ;;
       *)
